@@ -119,10 +119,12 @@ public class Ser {
 		aEstado.addObserver(obj);
 
 	}
-	
 
 	public void addAncianoObserver(Observer obj) {
 		aAnciano.addObserver(obj);
 
+	}
+	public Comportamiento getComportamiento() {
+		return comportamiento;
 	}
 }
