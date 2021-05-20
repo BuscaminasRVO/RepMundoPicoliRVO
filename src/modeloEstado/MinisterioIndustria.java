@@ -9,8 +9,6 @@ import modeloSer.Adulto;
 import modeloSer.Comportamiento;
 import modeloSer.Ser;
 
-
-
 /*
  * Se encarga de los trabajadores y parados
  * porq se encarga de contratar y despedir 
@@ -20,32 +18,29 @@ public class MinisterioIndustria {
 	private final ArrayDeque<Ser> parados = new ArrayDeque<>();
 
 	public void contratar(long trabajadoresNecesarios) {
-		do {
+
+		while (parados.size() >= trabajadoresNecesarios) {
 			for (int i = 0; i < trabajadoresNecesarios; i++) {
-				for (Iterator iterator = parados.iterator(); iterator.hasNext();) {
-					Ser ser = (Ser) iterator.next();
-				
-					trabajadores.push(parados.pop());
-					
-				}
+
+				trabajadores.push(parados.pop());
+
 			}
-			
-		} while (parados.size()>=trabajadoresNecesarios);
-		
+
+		}
+
 	}
 
 	public void despedir(long despidosNecesarios) {
-		do {
-			
+
+		while (trabajadores.size() >= despidosNecesarios) {
+
 			for (int i = 0; i < despidosNecesarios; i++) {
-				for (Iterator iterator = trabajadores.iterator(); iterator.hasNext();) {
-					Ser ser = (Ser) iterator.next();
-					trabajadores.pop();
-					parados.offerLast(ser);
-					
-				}
+
+				parados.offerLast(trabajadores.pop());
+
 			}
-		} while (trabajadores.size()>=despidosNecesarios);
+		}
+
 	}
 
 	public Stack<Ser> getTrabajadores() {
@@ -53,13 +48,12 @@ public class MinisterioIndustria {
 	}
 
 	public ArrayList<Adulto> getParadosAdultos() {
-		ArrayList<Adulto> Parados= new ArrayList<>();
+		ArrayList<Adulto> Parados = new ArrayList<>();
 		for (Iterator iterator = parados.iterator(); iterator.hasNext();) {
 			Ser ser = (Ser) iterator.next();
 			Comportamiento comportamiento = ser.getComportamiento();
-			//long ahorros = ((Adulto) comportamiento).getAhorro();
-			Parados.add(((Adulto)comportamiento));
-			
+			// long ahorros = ((Adulto) comportamiento).getAhorro();
+			Parados.add(((Adulto) comportamiento));
 
 		}
 		return Parados;
