@@ -1,4 +1,4 @@
-package modeloEstado;
+package test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -9,7 +9,7 @@ import java.util.Stack;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-
+import modeloEstado.MinisterioIndustria;
 import modeloSer.Ser;
 
 
@@ -39,10 +39,10 @@ class MinisterioIndustriaTest {
 			}
 		}
 		
-		System.out.println(ministerio.getParados());
+		
 		ministerio.contratar(5);
 		
-		System.out.println(ministerio.getTrabajadores());
+	
 		int resultado=5;
 		assertEquals(resultado, trabajadores.size());
 		
@@ -70,9 +70,9 @@ class MinisterioIndustriaTest {
 			}
 		}
 		int resultado=5;
-		System.out.println(trabajadores.size());
-//		ministerio.despedir(5);
-		System.out.println(parados.size());
+		ministerio.despedir(5);
+		assertEquals(resultado, parados.size());
+	
 		
 	}
 	

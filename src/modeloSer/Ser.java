@@ -98,10 +98,7 @@ public class Ser {
 	public void setEdad(int edad) {
 		this.edad = edad;
 	}
-
-	protected void recalcularEsperanzaDeVida(int sueldo) {
-		// TODO recalculando
-	}
+	
 
 	public boolean pasaAAnciano() {
 		return edad == Edades.adulto.getEdadMaxima();

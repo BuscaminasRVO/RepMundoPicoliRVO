@@ -6,6 +6,7 @@ import java.util.Iterator;
 import modeloEstado.MinisterioHacienda;
 import modeloEstado.MinisterioIndustria;
 import modeloEstado.MinisterioSocial;
+import modeloPresupuesto.Presupuesto;
 import modeloSer.Adulto;
 import modeloSer.Ser;
 
@@ -21,6 +22,7 @@ public class Estado {
 	MinisterioHacienda ministerioHacienda;
 	MinisterioIndustria ministerioIndustria;
 	MinisterioSocial ministerioSocial;
+	Presupuesto presupuesto;
 	
 	private final ArrayList<Ser> seres = new ArrayList<>();
 	
@@ -97,6 +99,21 @@ public class Estado {
 		return ministerioIndustria.getParadosAdultos();
 	}
 	
+	public long getPagoMenores() {
+		return this.presupuesto.getPagoMenores();
+	}
+
+
+	public long getPagoAncianos() {
+		return this.presupuesto.getPagoAncianos();
+		
+	}
+
+
+	public long getPagoParados() {
+		return this.presupuesto.getTotalParados(getParados());
+		
+	}
 	
 	
 	
