@@ -31,7 +31,7 @@ public class Presupuesto {
 		return total;
 	}
 
-	private long getTotalParados(ArrayList<Adulto> parados) {
+	public long getTotalParados(ArrayList<Adulto> parados) {
 		long total= 0;
 		for (Adulto adulto : parados) {
 			total+= adulto.calcularNecesidad();
@@ -61,19 +61,19 @@ public class Presupuesto {
 //	}
 
 
-	public Long getPagoMenores() {
+	public long getPagoMenores() {
 		return (long)(menores.getCantidadCorregida());
 	}
 
-	public Long getPagoAncianos() {
+	public long getPagoAncianos() {
 		return (long)(ancianos.getCantidadCorregida());
 	}
 
-	public Long getPagoTrabajadores() {
+	public long getPagoTrabajadores() {
 		return (long)(trabajadores.getCantidadCorregida());
 	}
 
-	public Long getPagoParados() {
+	public long getPagoParados() {
 		return parados;
 	}
 	public void setMenores(long i) {
