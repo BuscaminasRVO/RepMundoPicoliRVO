@@ -17,45 +17,14 @@ public class EstadoEnsayo {
 	public ArrayList<Ser> ancianos = new ArrayList<>();
 	public ArrayDeque<Ser> parados = new ArrayDeque<>();
 	public LinkedList<Ser> trabajadores= new LinkedList<>();
-	private long ahorros=0;
-	
 
 	
 
-	private Observer adultoObserver = new Observer() {
-		@Override
-		public void update(Observable o, Object arg) {
-			adultos.add(menores.remove(menores.indexOf(arg)));
-			
-		}
-
-	};
-	
-	
-	private Observer ancianoObserver = new Observer() {
-
-		@Override
-		public void update(Observable o, Object arg) {
-			ancianos.add(adultos.remove(adultos.indexOf(arg)));
-		}
-	};
-	private Observer estadoObserver = new Observer() {
-
-		@Override
-		public void update(Observable o, Object arg) {
-			
-			setAhorros(((Adulto)arg).getAhorro());
-		}
-	};
 
 	public EstadoEnsayo() {
 		super();
 		Ser ser = new Ser();
 		addSer(ser);
-		ser.addAdultoObserver(adultoObserver);
-		ser.addAncianoObserver(ancianoObserver);
-		ser.addEstadoObserver(estadoObserver);
-		
 		
 	}
 
@@ -73,13 +42,6 @@ public class EstadoEnsayo {
 		
 	}
 	
-	public long getAhorros() {
-		return ahorros;
-	}
 
-	public void setAhorros(long ahorros) {
-		this.ahorros += ahorros;
-	}
-	
 
 }

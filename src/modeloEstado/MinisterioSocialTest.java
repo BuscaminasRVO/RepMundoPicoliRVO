@@ -15,7 +15,7 @@ class MinisterioSocialTest {
 
 	@Test
 	void testPagarMenores() {
-		MinisterioSocial ministerio= new MinisterioSocial();
+		MinisterioSocial ministerio = null;
 		ArrayList<Ser> menores = ministerio.getMenores();
 		int menores2 = 5;
 		
