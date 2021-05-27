@@ -16,6 +16,7 @@ import modeloSer.Ser;
 public class MinisterioIndustria {
 	private final Stack<Ser> trabajadores = new Stack<>();
 	private final ArrayDeque<Ser> parados = new ArrayDeque<>();
+	
 
 	public void contratar(long trabajadoresNecesarios) {
 
@@ -62,4 +63,6 @@ public class MinisterioIndustria {
 	public ArrayDeque<Ser> getParados() {
 		return parados;
 	}
+	
+	
 }

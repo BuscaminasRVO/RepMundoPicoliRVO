@@ -1,6 +1,8 @@
 package presentador;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 
 import modeloEstado.MinisterioHacienda;
@@ -30,6 +32,7 @@ public class Estado {
 	public Estado() {
 		for (int i = 0; i < demanda/potenciaTrabajador; i++) {
 			naceSer();
+			
 		}
 		//Esto es la historia
 		int historia=0;
@@ -81,7 +84,11 @@ public class Estado {
 	}
 
 	private void naceSer() {
-		seres.add(new Ser());
+		Ser ser=new Ser();
+		seres.add(ser);
+		ser.addAdultoObserver(ministerioSocial.adultoObserver);
+		ser.addAncianoObserver(ministerioSocial.ancianoObserver);
+		ser.addEstadoObserver(ministerioSocial.estadoObserver);
 	}
 	
 	public long getCantidadMenores() {
@@ -115,9 +122,13 @@ public class Estado {
 		
 	}
 	
-	
-	
-	
+	public ArrayList<Ser> getParadosSer() {
+		ArrayList<Ser> parados = new ArrayList<Ser>();
+		for (Ser ser : ministerioIndustria.getParados()) {
+			parados.add(ser);
+		}
+		return parados;
+	}
 	
 }
 
