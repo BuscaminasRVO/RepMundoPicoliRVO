@@ -1,6 +1,7 @@
 
 package modeloEstado;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -19,14 +20,21 @@ import presentador.Estado;
  */
 public class MinisterioSocial {
 	
-	private final ArrayList<Ser> menores = new ArrayList<>();
-	private final ArrayList<Ser> ancianos = new ArrayList<>();
+	private  ArrayList<Ser> menores;
+	private  ArrayList<Ser> ancianos;
 	private Collection<Ser> parados;
 
 
 	public MinisterioSocial(Collection<Ser> parados) {
 		super();
 		this.parados = parados;
+	}
+	
+	public MinisterioSocial() {
+		super();
+		this.menores = new ArrayList<Ser>();
+		this.ancianos =new ArrayList<Ser>();
+		this.parados = new ArrayDeque<Ser>();
 	}
 
 	public Observer adultoObserver = new Observer() {
@@ -40,10 +48,12 @@ public class MinisterioSocial {
 	public void añadirAnciano(Ser ser) {
 		ancianos.add(ser);
 	}
+	
 	public void añadirSer(Ser ser) {
 		ser.addAdultoObserver(this.adultoObserver);
 		menores.add(ser);
 	}
+	
 	public void eliminarSer(Ser ser) {
 		if (!menores.remove(ser)) {
 			ancianos.remove(ser);

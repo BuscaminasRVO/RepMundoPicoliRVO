@@ -14,34 +14,40 @@ import modeloSer.Ser;
  * porq se encarga de contratar y despedir 
  */
 public class MinisterioIndustria {
-	private final Stack<Ser> trabajadores = new Stack<>();
-	private final ArrayDeque<Ser> parados = new ArrayDeque<>();
+	private  Stack<Ser> trabajadores;
+	private  ArrayDeque<Ser> parados;
 	
+	
+	
+	public MinisterioIndustria() {
+		super();
+		this.trabajadores = new Stack<Ser>();
+		this.parados = new ArrayDeque<Ser>();
+	}
+	
+
+	public MinisterioIndustria(Stack<Ser> trabajadores, ArrayDeque<Ser> parados) {
+		super();
+		this.trabajadores = trabajadores;
+		this.parados = parados;
+	}
 
 	public void contratar(long trabajadoresNecesarios) {
 
 		while (parados.size() >= trabajadoresNecesarios) {
 			for (int i = 0; i < trabajadoresNecesarios; i++) {
-
 				trabajadores.push(parados.pop());
-
 			}
-
 		}
-
 	}
-
+	
 	public void despedir(long despidosNecesarios) {
 
 		while (trabajadores.size() >= despidosNecesarios) {
-
 			for (int i = 0; i < despidosNecesarios; i++) {
-
 				parados.offerLast(trabajadores.pop());
-
 			}
 		}
-
 	}
 
 	public Stack<Ser> getTrabajadores() {
@@ -62,6 +68,15 @@ public class MinisterioIndustria {
 
 	public ArrayDeque<Ser> getParados() {
 		return parados;
+	}
+
+	public void sacarAdulto(Ser ser) {
+		if (parados.contains(ser)) {
+			parados.remove(ser);
+		}else if(trabajadores.contains(ser)){
+			trabajadores.remove(ser);
+		}
+		
 	}
 	
 	
