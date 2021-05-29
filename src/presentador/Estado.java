@@ -4,6 +4,8 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.Observable;
+import java.util.Observer;
 
 import modeloEstado.MinisterioHacienda;
 import modeloEstado.MinisterioIndustria;
@@ -15,18 +17,19 @@ import modeloSer.Ser;
 public class Estado {
 	
 	private long demanda= 0;
+	private long ahorros=0;
 	private float porcentajeAumento;
-	private long produccionPotencial=0;
 	private int potenciaTrabajador = 450;
+	
 	private long produccion;
-	
-	
-	MinisterioHacienda ministerioHacienda;
-	MinisterioIndustria ministerioIndustria;
-	MinisterioSocial ministerioSocial;
-	Presupuesto presupuesto;
+	private long produccionPotencial=0;
 	
 	private final ArrayList<Ser> seres = new ArrayList<>();
+	private MinisterioHacienda ministerioHacienda;
+	private MinisterioIndustria ministerioIndustria;
+	private MinisterioSocial ministerioSocial;
+	private Presupuesto presupuesto ;
+	
 	
 
 	public Estado() {
@@ -67,11 +70,19 @@ public class Estado {
 
 	private void terminarPeriodo() {
 		// TODO Auto-generated method stub
+		long costes = ministerioHacienda.pagarCostesFabricacion();
 		ministerioHacienda.calcularCapital();
+		long fabricado = ministerioIndustria.getTrabajadores().size();
+		long presupuestoTotal = (fabricado + getAhorros() - costes);
+		ministerioSocial.alimentar(costes, fabricado, presupuestoTotal);
+		alimentar(presupuestoTotal);
 		envejecer();
 		
 	}
 
+	public void alimentar(long presupuesto) {
+		ministerioSocial.alimentar(ministerioSocial.getMenores().size(), ministerioSocial.getAncianos().size(), ministerioSocial.getParados().size());
+	}
 	private void envejecer() {
 		for (Iterator iterator = seres.iterator(); iterator.hasNext();) {
 			Ser ser = (Ser) iterator.next();
@@ -86,9 +97,37 @@ public class Estado {
 	private void naceSer() {
 		Ser ser=new Ser();
 		seres.add(ser);
-		ser.addAdultoObserver(ministerioSocial.adultoObserver);
-		ser.addAncianoObserver(ministerioSocial.ancianoObserver);
-		ser.addEstadoObserver(ministerioSocial.estadoObserver);
+		ministerioSocial.añadirSer(ser);
+		ser.addAncianoObserver(ancianoObserver);
+		ser.addEstadoObserver(estadoObserver);
+	}
+	
+	public Observer estadoObserver = new Observer() {
+
+		@Override
+		public void update(Observable o, Object arg) {
+
+			setAhorros(((Adulto) arg).getAhorro());
+		}
+	};
+	
+	public Observer ancianoObserver = new Observer() {
+
+		@Override
+		public void update(Observable o, Object arg) {
+//			ancianos.add(parados.remove(parados.indexOf(arg)));
+			Ser ser = (Ser) arg;
+			ministerioSocial.añadirAnciano(ser);
+			//ministerioIndustria.sacarAdulto(ser);
+		}
+	};
+	
+	public long getAhorros() {
+		return ahorros;
+	}
+
+	public void setAhorros(long ahorros) {
+		this.ahorros += ahorros;
 	}
 	
 	public long getCantidadMenores() {
