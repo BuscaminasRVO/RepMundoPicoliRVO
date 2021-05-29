@@ -2,6 +2,8 @@
 package modeloEstado;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -16,15 +18,15 @@ import presentador.Estado;
  * Tambien se encarga del pago de estos sectores
  */
 public class MinisterioSocial {
-	Estado estado;
+	
 	private final ArrayList<Ser> menores = new ArrayList<>();
 	private final ArrayList<Ser> ancianos = new ArrayList<>();
-	private ArrayList<Ser> parados;
+	private Collection<Ser> parados;
 	private long ahorros=0;
 
-	public MinisterioSocial(ArrayList<Ser> parados) {
+	public MinisterioSocial(Collection<Ser> parados) {
 		super();
-		this.parados = estado.getParadosSer();
+		this.parados = parados;
 	}
 
 	public Observer adultoObserver = new Observer() {
@@ -35,12 +37,25 @@ public class MinisterioSocial {
 		}
 
 	};
-
+	public void añadirAnciano(Ser ser) {
+		ancianos.add(ser);
+	}
+	public void añadirSer(Ser ser) {
+		ser.addAdultoObserver(this.adultoObserver);
+		menores.add(ser);
+	}
+	public void eliminarSer(Ser ser) {
+		if (!menores.remove(ser)) {
+			ancianos.remove(ser);
+		}
+	}
+	
+	
 	public Observer ancianoObserver = new Observer() {
 
 		@Override
 		public void update(Observable o, Object arg) {
-			ancianos.add(parados.remove(parados.indexOf(arg)));
+//			ancianos.add(parados.remove(parados.indexOf(arg)));
 		}
 	};
 	public Observer estadoObserver = new Observer() {
@@ -68,25 +83,23 @@ public class MinisterioSocial {
 	public ArrayList<Ser> getAncianos() {
 		return ancianos;
 	}
-
-	public long pagarMenores() {
-		long cantidad = 0;
-		for (Ser ser : menores) {
-			cantidad += estado.getPagoMenores();
-		}
-		return cantidad;
+	
+	public void alimentar(long cantidadMenores,long cantidadAncianos, long cantidadParados) {
+		alimentarSectores(this.parados, cantidadParados);
+		alimentarSectores(this.menores, cantidadParados);
+		alimentarSectores(this.ancianos, cantidadParados);
 	}
-
-	public void pagarAncianos() {
-		for (Ser ser : ancianos) {
-			estado.getPagoAncianos();
-		}
-	}
-
-	public void pagarParados() {
-		for (int i = 0; i < estado.getParados().size(); i++) {
-			estado.getParados();
+	
+	
+	public void alimentarSectores(Collection<Ser> parados,long cantidad){
+		if (!parados.isEmpty()) {
+			int sueldo=(int) (cantidad/parados.size());
+			for (Ser ser : parados) {
+				ser.alimentar(sueldo);
+			}
 		}
 	}
+
+	
 
 }
