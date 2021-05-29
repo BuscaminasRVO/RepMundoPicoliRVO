@@ -22,7 +22,7 @@ public class MinisterioSocial {
 	private final ArrayList<Ser> menores = new ArrayList<>();
 	private final ArrayList<Ser> ancianos = new ArrayList<>();
 	private Collection<Ser> parados;
-	private long ahorros=0;
+
 
 	public MinisterioSocial(Collection<Ser> parados) {
 		super();
@@ -51,30 +51,9 @@ public class MinisterioSocial {
 	}
 	
 	
-	public Observer ancianoObserver = new Observer() {
-
-		@Override
-		public void update(Observable o, Object arg) {
-//			ancianos.add(parados.remove(parados.indexOf(arg)));
-		}
-	};
-	public Observer estadoObserver = new Observer() {
-
-		@Override
-		public void update(Observable o, Object arg) {
-
-			setAhorros(((Adulto) arg).getAhorro());
-		}
-	};
-	
-	public long getAhorros() {
-		return ahorros;
+	public Collection<Ser> getParados() {
+		return parados;
 	}
-
-	public void setAhorros(long ahorros) {
-		this.ahorros += ahorros;
-	}
-	
 	public ArrayList<Ser> getMenores() {
 		return menores;
 	}

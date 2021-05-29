@@ -16,13 +16,15 @@ public class MinisterioHacienda {
 		
 		capital+= calculamosProduccionPeriodica();
 		capital-= pagarCostesFabricacion();
-		Presupuesto presupuesto = new Presupuesto(estado.getCantidadMenores(), estado.getCantidadAncianos(), estado.getCantidadTrabajadores(), estado.getParados());
+		Presupuesto presupuesto =nuevoPresupuesto();
 		presupuesto.establecerPorcentajes(capital);
 		capital-= presupuesto.getTotal();
 	}
+	public Presupuesto nuevoPresupuesto() {
+		return new Presupuesto(estado.getCantidadMenores(), estado.getCantidadAncianos(), estado.getCantidadTrabajadores(), estado.getParados());
+	}
 	
-	
-	private long pagarCostesFabricacion() {
+	public long pagarCostesFabricacion() {
 		long costesFabricacion =0;
 		return costesFabricacion;
 	}
