@@ -16,40 +16,54 @@ import modeloSer.Ser;
 
 public class Estado {
 	
-	private long demanda= 0;
+	private long demanda=0;
 	private long ahorros=0;
-	private float porcentajeAumento;
 	private int potenciaTrabajador = 450;
-	
-	private long produccion;
-	private long produccionPotencial=0;
+	private long produccionPotencial= 1790;
 	
 	private final ArrayList<Ser> seres = new ArrayList<>();
-	private MinisterioHacienda ministerioHacienda;
-	private MinisterioIndustria ministerioIndustria;
-	private MinisterioSocial ministerioSocial;
-	private Presupuesto presupuesto ;
+	
+	public MinisterioHacienda ministerioHacienda;
+	public MinisterioIndustria ministerioIndustria;
+	public MinisterioSocial ministerioSocial;
+	
 	
 	
 
+
 	public Estado() {
+		super();
+		this.ministerioHacienda = new MinisterioHacienda(this, 0);
+		this.ministerioSocial = new MinisterioSocial();
+		this.ministerioIndustria = new MinisterioIndustria();
+	}
+
+
+	public Estado(long demanda) {
+		super();
+		this.demanda= demanda;
+		this.ministerioHacienda = new MinisterioHacienda(this, 0);
+		this.ministerioSocial = new MinisterioSocial();
+		this.ministerioIndustria = new MinisterioIndustria();
+		
 		for (int i = 0; i < demanda/potenciaTrabajador; i++) {
 			naceSer();
 			
 		}
+		
 		//Esto es la historia
 		int historia=0;
 		
 		do{
+			
 			terminarPeriodo();
 			comenzarPeriodo();
+			
 			historia++;
-		}while(historia <120);
+		}while(historia <1);
 	}
-	
 
 	private void comenzarPeriodo() {
-		// TODO Auto-generated method stub
 		long trabajadoresNecesarios= demanda - produccionPotencial;
 		contratar(trabajadoresNecesarios);
 		long trabajadoresFaltantes= trabajadoresNecesarios-getCantidadTrabajadores();
@@ -69,18 +83,18 @@ public class Estado {
 
 
 	private void terminarPeriodo() {
-		// TODO Auto-generated method stub
-		long costes = ministerioHacienda.pagarCostesFabricacion();
+		
+		Presupuesto presupuesto = ministerioHacienda.nuevoPresupuesto();
 		ministerioHacienda.calcularCapital();
 		long fabricado = ministerioIndustria.getTrabajadores().size();
-		long presupuestoTotal = (fabricado + getAhorros() - costes);
-		ministerioSocial.alimentar(costes, fabricado, presupuestoTotal);
-		alimentar(presupuestoTotal);
+		long presupuestoTotal = (fabricado + getAhorros());
+		alimentar(presupuesto);
+		ahorros +=  fabricado - presupuestoTotal;
 		envejecer();
 		
 	}
 
-	public void alimentar(long presupuesto) {
+	public void alimentar(Presupuesto presupuesto) {
 		ministerioSocial.alimentar(ministerioSocial.getMenores().size(), ministerioSocial.getAncianos().size(), ministerioSocial.getParados().size());
 	}
 	private void envejecer() {
@@ -115,10 +129,10 @@ public class Estado {
 
 		@Override
 		public void update(Observable o, Object arg) {
-//			ancianos.add(parados.remove(parados.indexOf(arg)));
+
 			Ser ser = (Ser) arg;
 			ministerioSocial.añadirAnciano(ser);
-			//ministerioIndustria.sacarAdulto(ser);
+			ministerioIndustria.sacarAdulto(ser);
 		}
 	};
 	
@@ -145,29 +159,36 @@ public class Estado {
 		return ministerioIndustria.getParadosAdultos();
 	}
 	
-	public long getPagoMenores() {
-		return this.presupuesto.getPagoMenores();
-	}
+//	public long getPagoMenores() {
+//		return this.presupuesto.getPagoMenores();
+//	}
+//
+//
+//	public long getPagoAncianos() {
+//		return this.presupuesto.getPagoAncianos();
+//		
+//	}
+//
+//
+//	public long getPagoParados() {
+//		return this.presupuesto.getTotalParados(getParados());
+//		
+//	}
+	
+//	public ArrayList<Ser> getParadosSer() {
+//		ArrayList<Ser> parados = new ArrayList<Ser>();
+//		for (Ser ser : ministerioIndustria.getParados()) {
+//			parados.add(ser);
+//		}
+//		return parados;
+//	}
 
 
-	public long getPagoAncianos() {
-		return this.presupuesto.getPagoAncianos();
-		
-	}
-
-
-	public long getPagoParados() {
-		return this.presupuesto.getTotalParados(getParados());
-		
+	public ArrayList<Ser> getSeres() {
+		return seres;
 	}
 	
-	public ArrayList<Ser> getParadosSer() {
-		ArrayList<Ser> parados = new ArrayList<Ser>();
-		for (Ser ser : ministerioIndustria.getParados()) {
-			parados.add(ser);
-		}
-		return parados;
-	}
+	
 	
 }
 

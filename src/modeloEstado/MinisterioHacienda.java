@@ -1,6 +1,9 @@
 package modeloEstado;
 
 
+import java.util.ArrayList;
+import modeloSer.Adulto;
+
 import modeloPresupuesto.Presupuesto;
 import presentador.Estado;
 
@@ -9,19 +12,32 @@ import presentador.Estado;
  */
 public class MinisterioHacienda {
 	
-	Estado estado;
+	private Estado estado;
 	private long capital=0;
+	private Presupuesto presupuesto;
+	
+	
+	
+	public MinisterioHacienda() {
+		super();
+	}
+	
+	public MinisterioHacienda(Estado estado, long capital) {
+		super();
+		this.estado = estado;
+		this.capital = capital;
+		this.presupuesto = new Presupuesto(0,0,0, new ArrayList<Adulto>());
+	}
 	
 	public void calcularCapital() {
 		
 		capital+= calculamosProduccionPeriodica();
 		capital-= pagarCostesFabricacion();
-		Presupuesto presupuesto =nuevoPresupuesto();
 		presupuesto.establecerPorcentajes(capital);
 		capital-= presupuesto.getTotal();
 	}
 	public Presupuesto nuevoPresupuesto() {
-		return new Presupuesto(estado.getCantidadMenores(), estado.getCantidadAncianos(), estado.getCantidadTrabajadores(), estado.getParados());
+		return presupuesto;
 	}
 	
 	public long pagarCostesFabricacion() {
