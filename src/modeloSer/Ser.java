@@ -124,4 +124,9 @@ public class Ser {
 	public Comportamiento getComportamiento() {
 		return comportamiento;
 	}
+
+	public float alimentar(int sueldo) {
+		return comportamiento.alimentar(sueldo, esperanzaVida);
+	}
+	
 }
